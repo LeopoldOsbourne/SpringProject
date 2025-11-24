@@ -1,0 +1,45 @@
+package org.example.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.example.dto.hotel.HotelRequestDto;
+import org.example.dto.hotel.HotelResponseDto;
+import org.example.service.HotelService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/hotels")
+@RequiredArgsConstructor
+public class HotelController {
+
+    private final HotelService hotelService;
+
+    @GetMapping
+    public ResponseEntity<List<HotelResponseDto>> getAll() {
+        return ResponseEntity.ok(hotelService.getAll());
+    }
+
+    @GetMapping("/id")
+    public ResponseEntity<HotelResponseDto> findById(@PathVariable Long id) {
+        return null;
+    }
+
+    @PostMapping
+    public ResponseEntity<HotelResponseDto> create(@RequestBody HotelRequestDto hotelDto) {
+        return ResponseEntity.ok(hotelService.create(hotelDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<HotelResponseDto> edit(@RequestBody HotelRequestDto hotelDto,  @PathVariable Long id) {
+        return ResponseEntity.ok(hotelService.edit(hotelDto, id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteHotel(@PathVariable Long id) {
+        hotelService.deleteHotel(id);
+        return ResponseEntity.noContent().build();
+    }
+
+}

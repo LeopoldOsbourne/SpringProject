@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: hotel_db
+    environment:
+      POSTGRES_USER: postgre_user
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: hotel_db
+    ports:
+      - "5431:5431"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
