@@ -33,6 +33,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<UserRole> roles;
 
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-    private List<Booking> bookings;
+//    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+//    private List<Booking> bookings;
 }
