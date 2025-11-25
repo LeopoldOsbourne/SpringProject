@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/container
+    url: jdbc:postgresql://localhost:5555/container
     username: container
     password: container
     driver-class-name: org.postgresql.Driver
