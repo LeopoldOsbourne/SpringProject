@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="create_role" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="user_roles"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table user_role (
+                long id,
+                varchar role_name,
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="create_user" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table users (
+            long id,
+            varchar name,
+            varchar password,
+            varchar email,
+
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="role_user" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="role_user"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table role_user (
+            long id,
+            long user_id references "users"(id),
+            long role_id references "user_role(id)",
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="hotels" author="author">
+    <preConditions>
+        <not>
+            <tableExists tableName="hotels"/>
+        </not>
+    </preConditions>
+    <sql>
+        CREATE table hotels (
+        long id,
+        varchar hotel_name,
+        varchar title,
+        varchar city,
+        varchar address,
+        long distance_from_city_center,
+        long rating,
+        long number_of_rating,
+        )
+    </sql>
+    </changeSet>
+    <changeSet id="rooms" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="rooms"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table rooms (
+            long id,
+            varchar name,
+            varchar description,
+            long number,
+            long price,
+            long maxnumber_of_guests,
+            long hotel_id references "hotels(id)"
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="bookings" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="bookings"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table bookings (
+            long id,
+            date arrival_date,
+            date departure_date,
+            long room_id references "rooms(id)",
+            long user_id references "users(id)"
+            )
+        </sql>
+    </changeSet>
+    </databaseChangeLog>

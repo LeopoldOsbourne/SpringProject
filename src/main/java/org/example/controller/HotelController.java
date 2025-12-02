@@ -1,9 +1,17 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.dto.hotel.HotelPageResponseDto;
 import org.example.dto.hotel.HotelRequestDto;
 import org.example.dto.hotel.HotelResponseDto;
+import org.example.dto.hotel.HotelSpecification;
+import org.example.model.Hotel;
+import org.example.repository.HotelRepository;
 import org.example.service.HotelService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +43,8 @@ public class HotelController {
     public ResponseEntity<HotelResponseDto> edit(@RequestBody HotelRequestDto hotelDto,  @PathVariable Long id) {
         return ResponseEntity.ok(hotelService.edit(hotelDto, id));
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteHotel(@PathVariable Long id) {

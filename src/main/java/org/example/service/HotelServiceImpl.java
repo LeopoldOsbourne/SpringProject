@@ -54,6 +54,7 @@ public class HotelServiceImpl implements HotelService {
         if (newMark < 1 || newMark > 5) {
             throw new IllegalArgumentException("Оценка должна быть от 1 до 5.");
         }
+
         Hotel hotel = hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new NoSuchElementException("Отель не найден."));
 
@@ -86,6 +87,7 @@ public class HotelServiceImpl implements HotelService {
 
         return hotelRepository.findAll(specification, pageable);
     }
+
 
     @Override
     public void deleteHotel(Long id) {
