@@ -7,7 +7,6 @@ import org.example.mapper.HotelMapper;
 import org.example.model.Hotel;
 import org.example.repository.HotelRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -77,7 +76,7 @@ public class HotelServiceImpl implements HotelService {
         return null; //TODO
     }*/
 
-    public Page<HotelPageResponseDto> findAllWithFilters(HotelFilterDto hotelFilterDto) {
+    public Page<HotelPageResponseDto<?>> findAllWithFilters(HotelFilterDto hotelFilterDto) {
 
         Specification<Hotel> specification = HotelSpecification.filterByCriteria(hotelFilterDto);
 
@@ -85,7 +84,6 @@ public class HotelServiceImpl implements HotelService {
 
         return hotelPage.map(this::convertToHotelPageResponseDto);
 
-        //return hotelRepository.findAll(specification, (Pageable) hotelFilterDto);
     }
 
     private HotelPageResponseDto<?> convertToHotelPageResponseDto(Hotel hotel) {
