@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -14,14 +16,14 @@ import java.util.UUID;
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(nullable = false)
-    private Instant arrivalDate;
+    private LocalDate arrivalDate;
 
     @Column(nullable = false)
-    private Instant departureDate;
+    private LocalDate departureDate;
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)

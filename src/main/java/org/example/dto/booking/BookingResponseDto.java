@@ -7,6 +7,7 @@ import org.example.model.Room;
 import org.example.model.User;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -14,13 +15,13 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BookingResponseDto {
 
-    UUID id;
+    long id;
 
-    Instant arrivalDate;
+    LocalDateTime arrivalDate;
 
-    Instant departureDate;
+    LocalDateTime departureDate;
 
-    UUID roomId;
-    UUID userId;
+    long roomId;
+    long userId;
 
 }

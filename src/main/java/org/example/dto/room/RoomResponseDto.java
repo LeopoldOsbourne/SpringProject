@@ -9,13 +9,14 @@ import lombok.experimental.FieldDefaults;
 import org.example.model.Hotel;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomResponseDto {
 
-    UUID id;
+    long id;
 
     String name;
 
@@ -27,6 +28,6 @@ public class RoomResponseDto {
 
     int maxNumberOfGuests;
 
-    Instant unavailableDates;
+    LocalDate unavailableDates;
 
 }

@@ -10,7 +10,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class HotelResponseWithRatingDto {
 
-    UUID id;
+    long id;
 
     String name;
 

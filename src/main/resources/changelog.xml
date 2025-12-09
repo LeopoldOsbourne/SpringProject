@@ -3,19 +3,6 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet id="create_role" author="author">
-        <preConditions>
-            <not>
-                <tableExists tableName="user_roles"/>
-            </not>
-        </preConditions>
-        <sql>
-            CREATE table user_role (
-                long id,
-                varchar role_name,
-            )
-        </sql>
-    </changeSet>
     <changeSet id="create_user" author="author">
         <preConditions>
             <not>
@@ -24,14 +11,30 @@
         </preConditions>
         <sql>
             CREATE table users (
-            long id,
-            varchar name,
-            varchar password,
-            varchar email,
-
+                id bigserial primary key,
+                name varchar,
+                password varchar,
+                email varchar
             )
         </sql>
     </changeSet>
+    <changeSet id="create_role" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="user_roles"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table user_roles (
+                id bigserial primary key,
+                role varchar,
+                user_id bigint references users(id)
+            )
+        </sql>
+    </changeSet>
+
+
+
     <changeSet id="role_user" author="author">
         <preConditions>
             <not>
@@ -40,9 +43,9 @@
         </preConditions>
         <sql>
             CREATE table role_user (
-            long id,
-            long user_id references "users"(id),
-            long role_id references "user_role(id)",
+                id bigserial primary key,
+                user_id bigint references users(id),
+                role_id bigint references user_roles(id)
             )
         </sql>
     </changeSet>
@@ -54,14 +57,14 @@
     </preConditions>
     <sql>
         CREATE table hotels (
-        long id,
-        varchar hotel_name,
-        varchar title,
-        varchar city,
-        varchar address,
-        long distance_from_city_center,
-        long rating,
-        long number_of_rating,
+        id bigserial primary key ,
+        name varchar,
+        title varchar,
+        city varchar,
+        address varchar,
+        distance_from_city_center bigint,
+        rating bigint,
+        number_of_ratings bigint
         )
     </sql>
     </changeSet>
@@ -73,13 +76,14 @@
         </preConditions>
         <sql>
             CREATE table rooms (
-            long id,
-            varchar name,
-            varchar description,
-            long number,
-            long price,
-            long maxnumber_of_guests,
-            long hotel_id references "hotels(id)"
+            id bigserial primary key ,
+            name varchar,
+            description varchar,
+            number bigint,
+            price bigint,
+            max_number_of_guests bigint,
+            unavailable_dates date,
+            hotel_id bigint references hotels(id)
             )
         </sql>
     </changeSet>
@@ -91,11 +95,26 @@
         </preConditions>
         <sql>
             CREATE table bookings (
-            long id,
-            date arrival_date,
-            date departure_date,
-            long room_id references "rooms(id)",
-            long user_id references "users(id)"
+            id bigserial primary key,
+            arrival_date date,
+            departure_date date,
+            room_id bigint references rooms(id),
+            user_id bigint references users(id)
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="hotel_marks" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="hotel_marks"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table hotel_marks (
+                id bigserial primary key ,
+                mark bigint,
+                user_id bigint references users(id),
+                hotel_id bigint references hotels(id)
             )
         </sql>
     </changeSet>

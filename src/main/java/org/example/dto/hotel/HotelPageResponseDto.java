@@ -11,7 +11,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class HotelPageResponseDto<T> {
 
-    UUID id;
+    long id;
 
     private List<T> content;
 
