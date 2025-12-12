@@ -5,8 +5,11 @@ import org.example.dto.user.UserRequestDto;
 import org.example.dto.user.UserResponseDto;
 import org.example.mapper.UserMapper;
 import org.example.model.User;
+import org.example.model.UserRole;
 import org.example.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +21,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto create(UserRequestDto userDto) {
         User user = userMapper.toUser(userDto);
+        user.setRoles(Set.of(UserRole.USER));
+
         return userMapper.toUserResponseDto(userRepository.save(user));
     }
 

@@ -33,22 +33,6 @@
         </sql>
     </changeSet>
 
-
-
-    <changeSet id="role_user" author="author">
-        <preConditions>
-            <not>
-                <tableExists tableName="role_user"/>
-            </not>
-        </preConditions>
-        <sql>
-            CREATE table role_user (
-                id bigserial primary key,
-                user_id bigint references users(id),
-                role_id bigint references user_roles(id)
-            )
-        </sql>
-    </changeSet>
     <changeSet id="hotels" author="author">
     <preConditions>
         <not>
