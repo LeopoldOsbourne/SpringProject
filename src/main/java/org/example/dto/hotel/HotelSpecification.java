@@ -10,39 +10,51 @@ import java.util.List;
 
 public class HotelSpecification {
 
-    public static Specification<Hotel> filterByCriteria(
-            Long id, String name, String adTitle, String city, String address,
-            Double distanceToCenter, Double rating, Integer numberOfRating) {
+    public static Specification<Hotel> filterByCriteria(HotelFilterDto hotelFilterDto) {
 
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (id != null) {
-                predicates.add(criteriaBuilder.equal(root.get("id"), id));
+            if (hotelFilterDto.getId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("id"), hotelFilterDto.getId()));
             }
-            if (name != null && !name.isEmpty()) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
+            if (hotelFilterDto.getName() != null && !hotelFilterDto.getName().isEmpty()) {
+                predicates.add(criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("name")),
+                        "%" + hotelFilterDto.getName().toLowerCase() + "%"));
             }
-            if (adTitle != null && !adTitle.isEmpty()) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("adTitle")), "%" + adTitle.toLowerCase() + "%"));
+            if (hotelFilterDto.getAdTitle() != null && !hotelFilterDto.getAdTitle().isEmpty()) {
+                predicates.add(criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("adTitle")),
+                        "%" + hotelFilterDto.getAdTitle().toLowerCase() + "%"));
             }
-            if (city != null && !city.isEmpty()) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("city")), "%" + city.toLowerCase() + "%"));
+            if (hotelFilterDto.getCity() != null && !hotelFilterDto.getCity().isEmpty()) {
+                predicates.add(criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("city")),
+                        "%" + hotelFilterDto.getCity().toLowerCase() + "%"));
             }
-            if (address != null && !address.isEmpty()) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("address")), "%" + address.toLowerCase() + "%"));
+            if (hotelFilterDto.getAddress() != null && !hotelFilterDto.getAddress().isEmpty()) {
+                predicates.add(criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("address")),
+                        "%" + hotelFilterDto.getAddress().toLowerCase() + "%"));
             }
-            if (distanceToCenter != null) {
-                predicates.add(criteriaBuilder.equal(root.get("distanceToCenter"), distanceToCenter));
+            if (hotelFilterDto.getDistanceToCenter() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("distanceToCenter"),
+                        hotelFilterDto.getDistanceToCenter()));
             }
-            if (rating != null) {
-                predicates.add(criteriaBuilder.equal(root.get("rating"), rating));
+            if (hotelFilterDto.getRating() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("rating"),
+                        hotelFilterDto.getRating()));
             }
-            if (numberOfRating != null) {
-                predicates.add(criteriaBuilder.equal(root.get("numberOfRating"), numberOfRating));
+            if (hotelFilterDto.getNumberOfRating() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("numberOfRating"),
+                        hotelFilterDto.getNumberOfRating()));
             }
 
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+            return predicates.isEmpty()
+                    ? criteriaBuilder.conjunction()
+                    : criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+
         };
     }
 }

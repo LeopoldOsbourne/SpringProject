@@ -13,14 +13,14 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Hotel {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
-    private String adTitle;
+    private String title;
 
     @Column(nullable = false)
     private String city;
@@ -39,6 +39,9 @@ public class Hotel {
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<Room> rooms;
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private List<HotelMark> hotelMarks;
 
     public int getNumberOfRating() {
         return 0;

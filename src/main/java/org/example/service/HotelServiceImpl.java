@@ -7,7 +7,6 @@ import org.example.mapper.HotelMapper;
 import org.example.model.Hotel;
 import org.example.repository.HotelRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +53,7 @@ public class HotelServiceImpl implements HotelService {
         if (newMark < 1 || newMark > 5) {
             throw new IllegalArgumentException("Оценка должна быть от 1 до 5.");
         }
+
         Hotel hotel = hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new NoSuchElementException("Отель не найден."));
 
@@ -71,21 +71,25 @@ public class HotelServiceImpl implements HotelService {
         return hotelMapper.toHotelResponseWithRatingDto(hotelRepository.save(hotel));
     }
 
-    @Override
-    public Page<HotelPageResponseDto<?>> findAllWithFilters(Long id, String name, String adTitle, String city, String address, Double distanceToCenter, Double rating, Integer numberOfRating, java.awt.print.Pageable pageable) {
+
+    /*public Page<HotelPageResponseDto<?>> findAllWithFilters(HotelFilterDto hotelFilterDto) {
         return null; //TODO
+    }*/
+
+    public Page<HotelPageResponseDto<?>> findAllWithFilters(HotelFilterDto hotelFilterDto) {
+
+        Specification<Hotel> specification = HotelSpecification.filterByCriteria(hotelFilterDto);
+
+        Page<Hotel> hotelPage = hotelRepository.findAll(specification, hotelFilterDto.getPageable());
+
+        return hotelPage.map(this::convertToHotelPageResponseDto);
+
     }
 
-    public Page<Hotel> findAllWithFilters(
-            Long id, String name, String adTitle, String city, String address,
-            Double distanceToCenter, Double rating, Integer numberOfRating,
-            Pageable pageable) {
-
-        Specification<Hotel> specification = HotelSpecification.filterByCriteria(
-                id, name, adTitle, city, address, distanceToCenter, rating, numberOfRating);
-
-        return hotelRepository.findAll(specification, pageable);
+    private HotelPageResponseDto<?> convertToHotelPageResponseDto(Hotel hotel) {
+        return new HotelPageResponseDto<>();
     }
+
 
     @Override
     public void deleteHotel(Long id) {

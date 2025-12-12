@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class HotelResponseDto {
 
-    UUID id;
+    long id;
 
     String name;
 

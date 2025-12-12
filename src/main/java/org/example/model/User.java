@@ -15,8 +15,8 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(nullable = false)
     private String name;
@@ -33,6 +33,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<UserRole> roles;
 
-//    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-//    private List<Booking> bookings;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Booking> bookings;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<HotelMark> hotelMarks;
 }

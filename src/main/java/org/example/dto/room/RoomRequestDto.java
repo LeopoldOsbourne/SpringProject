@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.example.model.Hotel;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -21,6 +22,6 @@ public class RoomRequestDto {
 
     int maxNumberOfGuests;
 
-    Instant unavailableDates;
+    LocalDate unavailableDates;
 
 }

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="create_user" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table users (
+                id bigserial primary key,
+                name varchar,
+                password varchar,
+                email varchar
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="create_role" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="user_roles"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table user_roles (
+                id bigserial primary key,
+                role varchar,
+                user_id bigint references users(id)
+            )
+        </sql>
+    </changeSet>
+
+
+
+    <changeSet id="role_user" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="role_user"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table role_user (
+                id bigserial primary key,
+                user_id bigint references users(id),
+                role_id bigint references user_roles(id)
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="hotels" author="author">
+    <preConditions>
+        <not>
+            <tableExists tableName="hotels"/>
+        </not>
+    </preConditions>
+    <sql>
+        CREATE table hotels (
+        id bigserial primary key ,
+        name varchar,
+        title varchar,
+        city varchar,
+        address varchar,
+        distance_from_city_center bigint,
+        rating bigint,
+        number_of_ratings bigint
+        )
+    </sql>
+    </changeSet>
+    <changeSet id="rooms" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="rooms"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table rooms (
+            id bigserial primary key ,
+            name varchar,
+            description varchar,
+            number bigint,
+            price bigint,
+            max_number_of_guests bigint,
+            unavailable_dates date,
+            hotel_id bigint references hotels(id)
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="bookings" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="bookings"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table bookings (
+            id bigserial primary key,
+            arrival_date date,
+            departure_date date,
+            room_id bigint references rooms(id),
+            user_id bigint references users(id)
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="hotel_marks" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="hotel_marks"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table hotel_marks (
+                id bigserial primary key ,
+                mark bigint,
+                user_id bigint references users(id),
+                hotel_id bigint references hotels(id)
+            )
+        </sql>
+    </changeSet>
+    </databaseChangeLog>

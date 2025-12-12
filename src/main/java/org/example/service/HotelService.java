@@ -1,9 +1,6 @@
 package org.example.service;
 
-import org.example.dto.hotel.HotelPageResponseDto;
-import org.example.dto.hotel.HotelRequestDto;
-import org.example.dto.hotel.HotelResponseDto;
-import org.example.dto.hotel.HotelResponseWithRatingDto;
+import org.example.dto.hotel.*;
 import org.springframework.data.domain.Page;
 
 
@@ -22,10 +19,7 @@ public interface HotelService {
 
     HotelResponseWithRatingDto updateHotelRating(Long id, int newRating);
 
-    Page<HotelPageResponseDto<?>> findAllWithFilters(
-            Long id, String name, String adTitle, String city, String address,
-            Double distanceToCenter, Double rating, Integer numberOfRating,
-            Pageable pageable);
+    Page<HotelPageResponseDto<?>> findAllWithFilters(HotelFilterDto hotelFilterDto);
 
     void deleteHotel(Long id);
 }

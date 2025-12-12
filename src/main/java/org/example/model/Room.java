@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,8 +15,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Room {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(nullable = false)
     private String name;
@@ -33,12 +34,12 @@ public class Room {
     private int maxNumberOfGuests;
 
     @Column(nullable = false)
-    private Instant unavailableDates;
+    private LocalDate unavailableDates;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
 
-//    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-//    private List<Booking> bookings;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private List<Booking> bookings;
 }

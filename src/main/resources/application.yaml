@@ -1,12 +1,14 @@
 spring:
+  liquibase:
+    change-log: classpath:changelog.xml
   datasource:
-    url: jdbc:postgresql://localhost:5432/container
+    url: jdbc:postgresql://localhost:5555/container
     username: container
     password: container
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
