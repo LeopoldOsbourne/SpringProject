@@ -25,4 +25,16 @@ public class UserController {
     public ResponseEntity<UserResponseDto> findByName(String name) {
         return ResponseEntity.ok(userService.findByName(name));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDto> edit(@RequestBody UserRequestDto userDto, @PathVariable long id){
+        return ResponseEntity.ok(userService.edit(userDto, id));
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(long id){
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

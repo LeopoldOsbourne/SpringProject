@@ -1,5 +1,6 @@
 package org.example.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.user.UserRequestDto;
 import org.example.dto.user.UserResponseDto;
@@ -29,5 +30,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto findByName(String name) {
         return userMapper.toUserResponseDto(userRepository.findByName(name));
+    }
+
+    @Override
+    public UserResponseDto edit(UserRequestDto userDto, long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Not found user"));
+        return userMapper.toUserResponseDto(userRepository.save(user));
+    }
+
+    @Override
+    public void delete(long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("User not found with id " + id));
+        userRepository.delete(user);
+
     }
 }

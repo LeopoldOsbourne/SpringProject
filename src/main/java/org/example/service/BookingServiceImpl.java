@@ -1,5 +1,6 @@
 package org.example.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.booking.BookingRequestDto;
 import org.example.dto.booking.BookingResponseDto;
@@ -9,6 +10,7 @@ import org.example.repository.BookingRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +27,12 @@ public class BookingServiceImpl implements BookingService {
     public BookingResponseDto createBooking(BookingRequestDto bookingDto) {
         Booking booking = bookingMapper.toBooking(bookingDto);
         return bookingMapper.toBookingResponseDto(bookingRepository.save(booking));
+    }
+
+    @Override
+    public void deleteBooking(long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Booking is not found"));
+        bookingRepository.delete(booking);
     }
 }
