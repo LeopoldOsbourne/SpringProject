@@ -12,9 +12,9 @@
         <sql>
             CREATE table users (
                 id bigserial primary key,
-                name varchar,
+                name varchar unique,
                 password varchar,
-                email varchar
+                email varchar unique
             )
         </sql>
     </changeSet>
@@ -102,4 +102,4 @@
             )
         </sql>
     </changeSet>
-    </databaseChangeLog>
+</databaseChangeLog>
