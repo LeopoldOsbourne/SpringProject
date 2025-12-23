@@ -1,14 +1,13 @@
 package org.example.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.user.UserRequestDto;
 import org.example.dto.user.UserResponseDto;
 import org.example.service.UserService;
+import org.example.validation.annotation.NotExist;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -18,12 +17,24 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> create(UserRequestDto userDto) {
-        return ResponseEntity.ok(userService.create(userDto));
+    public UserResponseDto create(@RequestBody @NotExist @Valid UserRequestDto userDto) {
+        return userService.create(userDto);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> findByName(String name) {
         return ResponseEntity.ok(userService.findByName(name));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDto> edit(@RequestBody UserRequestDto userDto, @PathVariable long id){
+        return ResponseEntity.ok(userService.edit(userDto, id));
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id){
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

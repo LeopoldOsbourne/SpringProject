@@ -10,4 +10,6 @@ public interface BookingService {
     List<BookingResponseDto> showAllBookings();
 
     BookingResponseDto createBooking(BookingRequestDto bookingDto);
+
+    void deleteBooking(long id);
 }

@@ -10,12 +10,7 @@ import java.util.Set;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRequestDto {
-
     String name;
-
     String password;
-
     String email;
-
-    Set<UserRole> roles;
 }

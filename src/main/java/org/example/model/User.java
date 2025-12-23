@@ -27,10 +27,12 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @ElementCollection(fetch = FetchType.EAGER, targetClass = UserRole.class)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<UserRole> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

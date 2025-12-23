@@ -5,10 +5,7 @@ import org.example.dto.booking.BookingRequestDto;
 import org.example.dto.booking.BookingResponseDto;
 import org.example.service.BookingService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,11 @@ public class BookingController {
     @PostMapping
     public ResponseEntity<BookingResponseDto> createBooking(BookingRequestDto bookingDto){
         return ResponseEntity.ok(bookingService.createBooking(bookingDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBooking(@PathVariable long id){
+        bookingService.deleteBooking(id);
+        return ResponseEntity.ok().build();
     }
 }

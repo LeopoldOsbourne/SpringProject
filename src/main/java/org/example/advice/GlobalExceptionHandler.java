@@ -21,9 +21,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST); // 400
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponseDto> handleGenericException(Exception ex) {
-        ErrorResponseDto error = new ErrorResponseDto("INTERNAL_SERVER_ERROR", "Внутренняя ошибка сервиса");
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); // 500
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ErrorResponseDto> handleGenericException(Exception ex) {
+//        ErrorResponseDto error = new ErrorResponseDto("INTERNAL_SERVER_ERROR", "Внутренняя ошибка сервиса");
+//        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); // 500
+//    }
 }
