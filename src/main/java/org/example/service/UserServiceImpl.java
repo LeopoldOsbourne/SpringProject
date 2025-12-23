@@ -7,6 +7,7 @@ import org.example.dto.user.UserResponseDto;
 import org.example.mapper.UserMapper;
 import org.example.model.User;
 import org.example.model.UserRole;
+import org.example.repository.RoleRepository;
 import org.example.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final RoleRepository roleRepository;
 
     @Override
     public UserResponseDto create(UserRequestDto userDto) {
         User user = userMapper.toUser(userDto);
-        user.setRoles(Set.of(UserRole.USER));
+
+        UserRole role = roleRepository.findByName("user");
+        user.setRoles(Set.of(role));
 
         return userMapper.toUserResponseDto(userRepository.save(user));
     }
