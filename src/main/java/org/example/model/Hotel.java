@@ -31,22 +31,9 @@ public class Hotel {
     @Column(nullable = false)
     private Long distanceFromCityCenter;
 
-    @Column(nullable = false)
-    private Long rating;
-
-    @Column(nullable = false)
-    private Long numberOfRatings;
-
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<Room> rooms;
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<HotelMark> hotelMarks;
-
-    public int getNumberOfRating() {
-        return 0;
-    };
-
-    public void setNumberOfRating(int updatedNumberOfRating) {
-    }
 }

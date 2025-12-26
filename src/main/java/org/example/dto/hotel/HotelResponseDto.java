@@ -1,14 +1,18 @@
 package org.example.dto.hotel;
 
-import java.util.UUID;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class HotelResponseDto {
 
     long id;
 
     String name;
 
-    String adTitle;
+    String title;
 
     String city;
 

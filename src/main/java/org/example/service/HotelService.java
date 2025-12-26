@@ -17,9 +17,9 @@ public interface HotelService {
 
     HotelResponseDto edit(HotelRequestDto hotelDto, Long id);
 
-    HotelResponseWithRatingDto updateHotelRating(Long id, int newRating);
+   // HotelResponseWithRatingDto updateHotelRating(Long id, int newRating);
 
-    Page<HotelPageResponseDto<?>> findAllWithFilters(HotelFilterDto hotelFilterDto);
+    //Page<HotelPageResponseDto<?>> findAllWithFilters(HotelFilterDto hotelFilterDto);
 
     void deleteHotel(Long id);
 }

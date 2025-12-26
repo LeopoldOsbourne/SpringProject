@@ -10,7 +10,7 @@ public class HotelRequestDto {
 
     String name;
 
-    String adTitle;
+    String title;
 
     String city;
 

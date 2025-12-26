@@ -25,26 +25,24 @@ public class HotelController {
     private final HotelService hotelService;
 
     @GetMapping
-    public ResponseEntity<List<HotelResponseDto>> getAll() {
-        return ResponseEntity.ok(hotelService.getAll());
+    public List<HotelResponseDto> getAll() {
+        return hotelService.getAll();
     }
 
     @GetMapping("/id")
-    public ResponseEntity<HotelResponseDto> findById(@PathVariable Long id) {
-        return null;
+    public HotelResponseDto findById(@PathVariable Long id) {
+        return hotelService.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<HotelResponseDto> create(@RequestBody HotelRequestDto hotelDto) {
-        return ResponseEntity.ok(hotelService.create(hotelDto));
+    public HotelResponseDto create(@RequestBody HotelRequestDto hotelDto) {
+        return hotelService.create(hotelDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<HotelResponseDto> edit(@RequestBody HotelRequestDto hotelDto,  @PathVariable Long id) {
-        return ResponseEntity.ok(hotelService.edit(hotelDto, id));
+    public HotelResponseDto edit(@RequestBody HotelRequestDto hotelDto,  @PathVariable Long id) {
+        return hotelService.edit(hotelDto, id);
     }
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteHotel(@PathVariable Long id) {

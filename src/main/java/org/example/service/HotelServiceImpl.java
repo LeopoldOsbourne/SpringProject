@@ -29,26 +29,31 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public HotelResponseDto findById(Long id) {
         Optional<Hotel> hotelOptional = hotelRepository.findById(id);
-        if (hotelOptional.isEmpty()) {
-            return null;
-        }
 
-        return hotelMapper.toHotelResponseDto(hotelOptional.get()) ;
+        return hotelOptional
+                .map(hotelMapper::toHotelResponseDto)
+                .orElse(null);
     }
 
     @Override
     public HotelResponseDto create(HotelRequestDto hotelDto) {
         Hotel hotel = hotelMapper.toHotel(hotelDto);
-        return hotelMapper.toHotelResponseDto(hotelRepository.save(hotel))  ;
+        return hotelMapper.toHotelResponseDto(hotelRepository.save(hotel));
     }
 
     public HotelResponseDto edit(HotelRequestDto hotelDto, Long id) {
         Hotel hotel = hotelRepository.findById(id)
                 .orElseThrow(()->new EntityNotFoundException("Not found hotel"));
-        return hotelMapper.toHotelResponseDto(hotelRepository.save(hotel));
+        hotel.setName(hotelDto.getName());
+        hotel.setAddress(hotelDto.getAddress());
+        hotel.setCity(hotelDto.getCity());
+
+        Hotel updatedHotel = hotelRepository.save(hotel);
+
+        return hotelMapper.toHotelResponseDto(updatedHotel);
     }
 
-    @Override
+    /* @Override
     public HotelResponseWithRatingDto updateHotelRating(Long hotelId, int newMark) {
         if (newMark < 1 || newMark > 5) {
             throw new IllegalArgumentException("Оценка должна быть от 1 до 5.");
@@ -69,14 +74,14 @@ public class HotelServiceImpl implements HotelService {
 
 
         return hotelMapper.toHotelResponseWithRatingDto(hotelRepository.save(hotel));
-    }
+    }*/
 
 
     /*public Page<HotelPageResponseDto<?>> findAllWithFilters(HotelFilterDto hotelFilterDto) {
         return null; //TODO
     }*/
 
-    public Page<HotelPageResponseDto<?>> findAllWithFilters(HotelFilterDto hotelFilterDto) {
+    /*public Page<HotelPageResponseDto<?>> findAllWithFilters(HotelFilterDto hotelFilterDto) {
 
         Specification<Hotel> specification = HotelSpecification.filterByCriteria(hotelFilterDto);
 
@@ -88,7 +93,7 @@ public class HotelServiceImpl implements HotelService {
 
     private HotelPageResponseDto<?> convertToHotelPageResponseDto(Hotel hotel) {
         return new HotelPageResponseDto<>();
-    }
+    }*/
 
 
     @Override

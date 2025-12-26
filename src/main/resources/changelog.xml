@@ -135,5 +135,11 @@
         <dropColumn tableName="user_roles" columnName="role"/>
     </changeSet>
 
+    <changeSet id="1766493568248-1" author="arsla (generated)">
+        <dropColumn tableName="hotels" columnName="rating"/>
+        <dropColumn tableName="hotels" columnName="number_of_ratings"/>
+    </changeSet>
+
+
 
 </databaseChangeLog>
