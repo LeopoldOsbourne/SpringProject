@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.dto.hotel.*;
 import org.example.mapper.HotelMapper;
 import org.example.model.Hotel;
+import org.example.repository.HotelFilter;
 import org.example.repository.HotelRepository;
+import org.example.repository.HotelSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,11 @@ public class HotelServiceImpl implements HotelService {
     private final HotelMapper hotelMapper;
 
     @Override
-    public List<HotelResponseDto> getAll() {
-        return hotelMapper.toHotelResponseList(hotelRepository.findAll());
+    public List<HotelResponseDto> getAll(HotelFilterDto hotelFilterDto) {
+
+        HotelFilter hotelFilter;
+
+        return hotelMapper.toHotelResponseList(hotelRepository.findAll(new HotelSpecification(hotelFilter)));
     }
 
     @Override
