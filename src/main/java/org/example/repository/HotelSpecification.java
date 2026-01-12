@@ -4,7 +4,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import org.example.dto.hotel.HotelFilterDto;
 import org.example.model.Hotel;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -43,11 +42,6 @@ public class HotelSpecification implements Specification<Hotel> {
         if(hotelFilter.getNumberOfRating() != null) {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("numberOfRating"), hotelFilter.getNumberOfRating()));
         }
-
-
-
-        // TODO ройттись по каждому полю и завершить сбор предикатов
-
 
         return predicate;
     }

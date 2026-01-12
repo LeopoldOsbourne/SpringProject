@@ -13,4 +13,6 @@ public class HotelFilter {
     private Double distanceToCenter;
     private Double rating;
     private Integer numberOfRating;
+    private int pageSize;
+    private int pageNumber;
 }

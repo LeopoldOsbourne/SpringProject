@@ -6,6 +6,7 @@ import org.example.dto.hotel.HotelRequestDto;
 import org.example.dto.hotel.HotelResponseDto;
 import org.example.dto.hotel.HotelSpecification;
 import org.example.model.Hotel;
+import org.example.repository.HotelFilter;
 import org.example.repository.HotelRepository;
 import org.example.service.HotelService;
 import org.springframework.data.domain.Page;
@@ -25,8 +26,8 @@ public class HotelController {
     private final HotelService hotelService;
 
     @GetMapping
-    public List<HotelResponseDto> getAll() {
-        return hotelService.getAll();
+    public List<HotelResponseDto> getAll(HotelFilter hotelFilter) {
+        return hotelService.getAll(hotelFilter);
     }
 
     @GetMapping("/id")

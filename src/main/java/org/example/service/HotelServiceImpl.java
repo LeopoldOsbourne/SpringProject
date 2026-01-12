@@ -2,6 +2,7 @@ package org.example.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.HotelResponse;
 import org.example.dto.hotel.*;
 import org.example.mapper.HotelMapper;
 import org.example.model.Hotel;
@@ -9,6 +10,7 @@ import org.example.repository.HotelFilter;
 import org.example.repository.HotelRepository;
 import org.example.repository.HotelSpecification;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +26,14 @@ public class HotelServiceImpl implements HotelService {
     private final HotelMapper hotelMapper;
 
     @Override
-    public List<HotelResponseDto> getAll(HotelFilterDto hotelFilterDto) {
-
-        HotelFilter hotelFilter;
-
-        return hotelMapper.toHotelResponseList(hotelRepository.findAll(new HotelSpecification(hotelFilter)));
+    public HotelResponse getAll(HotelFilter hotelFilter) {
+        Page<Hotel> hotels = hotelRepository.findAll(new HotelSpecification(hotelFilter), PageRequest.of(hotelFilter.getPageNumber(), hotelFilter.getPageSize()));
+        HotelResponse hotelResponse = new HotelResponse();
+        hotelResponse.setHotels(hotels.toList());
+        hotelResponse.setPageNumber(hotels.getNumber());
+        hotelResponse.setPageSize(hotels.getSize());
+        hotelResponse.setPageElements(hotels.getNumberOfElements());
+        return hotelResponse;
     }
 
     @Override
