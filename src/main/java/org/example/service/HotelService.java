@@ -1,15 +1,12 @@
 package org.example.service;
 
+import org.example.dto.HotelResponse;
 import org.example.dto.hotel.*;
-import org.springframework.data.domain.Page;
-
-
-import java.awt.print.Pageable;
-import java.util.List;
+import org.example.repository.HotelFilter;
 
 public interface HotelService {
 
-    List<HotelResponseDto> getAll();
+    HotelResponse getAll(HotelFilter hotelFilter);
 
     HotelResponseDto findById(Long id);
 
