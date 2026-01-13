@@ -29,7 +29,7 @@ public class HotelServiceImpl implements HotelService {
     public HotelResponse getAll(HotelFilter hotelFilter) {
         Page<Hotel> hotels = hotelRepository.findAll(new HotelSpecification(hotelFilter), PageRequest.of(hotelFilter.getPageNumber(), hotelFilter.getPageSize()));
         HotelResponse hotelResponse = new HotelResponse();
-        hotelResponse.setHotels(hotels.toList());
+        hotelResponse.setHotels(hotels.toList().stream().map(hotelMapper::toHotelResponseDto).toList());
         hotelResponse.setPageNumber(hotels.getNumber());
         hotelResponse.setPageSize(hotels.getSize());
         hotelResponse.setPageElements(hotels.getNumberOfElements());

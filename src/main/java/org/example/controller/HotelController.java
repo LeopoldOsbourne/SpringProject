@@ -1,22 +1,13 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.hotel.HotelPageResponseDto;
+import org.example.dto.HotelResponse;
 import org.example.dto.hotel.HotelRequestDto;
 import org.example.dto.hotel.HotelResponseDto;
-import org.example.dto.hotel.HotelSpecification;
-import org.example.model.Hotel;
 import org.example.repository.HotelFilter;
-import org.example.repository.HotelRepository;
 import org.example.service.HotelService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/hotels")
@@ -26,7 +17,7 @@ public class HotelController {
     private final HotelService hotelService;
 
     @GetMapping
-    public List<HotelResponseDto> getAll(HotelFilter hotelFilter) {
+    public HotelResponse getAll(@RequestBody HotelFilter hotelFilter) {
         return hotelService.getAll(hotelFilter);
     }
 

@@ -13,7 +13,4 @@ public class HotelResponse {
     private int pageNumber;
     private int pageSize;
     private int pageElements;
-
-
-
 }
