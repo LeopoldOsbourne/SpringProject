@@ -2,13 +2,16 @@ package org.example.service;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.room.RoomRequestDto;
 import org.example.dto.room.RoomResponseDto;
 import org.example.dto.room.RoomSpecification;
 import org.example.mapper.RoomMapper;
 import org.example.model.Room;
+import org.example.model.UnavailableDates;
 import org.example.repository.RoomRepository;
+import org.example.repository.UnavailableDatesRepository;
 import org.hibernate.query.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +28,7 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
+    private final UnavailableDatesRepository unavailableDatesRepository;
 
     @Override
     @Nullable
@@ -38,9 +43,30 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public RoomResponseDto create(RoomRequestDto roomDto) {
+        /*
+        1. сохранить комнату
+        2. создать список из UnavailableDates из roomDto.unavailableDates, в каждую из них положить созданный Room
+        3. Сохранить список UnavailableDates через saveBatch
+         */
         Room room = roomMapper.toRoom(roomDto);
-        return roomMapper.toRoomResponseDto(roomRepository.save(room));
+        room = roomRepository.save(room);
+
+        Room finalRoom = room;
+        List<UnavailableDates> unavailableDates = roomDto.getUnavailableDates()
+                .stream()
+                .map(date -> {
+                    UnavailableDates unavailableDate = new UnavailableDates();
+                    unavailableDate.setRoom(finalRoom);
+                    return unavailableDate;
+                })
+                .collect(Collectors.toList());
+
+        unavailableDatesRepository.saveAll(unavailableDates);
+
+        roomRepository.save(room);
+        return roomMapper.toRoomResponseDto(room);
     }
 
     @Override
@@ -51,7 +77,6 @@ public class RoomServiceImpl implements RoomService {
         room.setDescription(roomDto.getDescription());
         room.setPrice(roomDto.getPrice());
         room.setMaxNumberOfGuests(roomDto.getMaxNumberOfGuests());
-        room.setUnavailableDates(roomDto.getUnavailableDates());
         return roomMapper.toRoomResponseDto(roomRepository.save(room));
     }
 

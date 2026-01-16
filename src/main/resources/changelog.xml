@@ -140,6 +140,25 @@
         <dropColumn tableName="hotels" columnName="number_of_ratings"/>
     </changeSet>
 
+    <changeSet id="1766492684335-1" author="arsla (generated)">
+        <dropColumn tableName="rooms" columnName="unavailable_dates"/>
+    </changeSet>
+
+
+    <changeSet id="1766492684334-1" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="unavailable_dates"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table unavailable_dates (
+                id bigserial primary key,
+                room_id bigint references rooms(id),
+                unavailable_date DATE
+            )
+        </sql>
+    </changeSet>
 
 
 </databaseChangeLog>
