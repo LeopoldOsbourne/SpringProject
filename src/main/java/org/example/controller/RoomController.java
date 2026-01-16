@@ -16,7 +16,7 @@ public class RoomController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomResponseDto> findById(@PathVariable Long id) {
-        return null;
+        return ResponseEntity.ok(roomService.findById(id));
     }
 
     @PostMapping

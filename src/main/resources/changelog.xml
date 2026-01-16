@@ -67,7 +67,8 @@
             price bigint,
             max_number_of_guests bigint,
             unavailable_dates date,
-            hotel_id bigint references hotels(id)
+            hotel_id bigint references hotels(id),
+            unavailable_dates_id bigint references unavailable_dates(id)
             )
         </sql>
     </changeSet>
@@ -140,6 +141,25 @@
         <dropColumn tableName="hotels" columnName="number_of_ratings"/>
     </changeSet>
 
+    <changeSet id="1766492684335-1" author="arsla (generated)">
+        <dropColumn tableName="rooms" columnName="unavailable_dates"/>
+    </changeSet>
+
+
+    <changeSet id="1766492684334-1" author="author">
+        <preConditions>
+            <not>
+                <tableExists tableName="unavailable_dates"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE table user_roles (
+                id bigserial primary key,
+                room_id bigint references rooms(id),
+                unavailable_date TIMESTAMP,
+            )
+        </sql>
+    </changeSet>
 
 
 </databaseChangeLog>
