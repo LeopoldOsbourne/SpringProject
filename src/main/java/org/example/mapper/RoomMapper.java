@@ -17,11 +17,19 @@ import java.util.stream.Collectors;
 public interface RoomMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "unavailableDates", ignore = true)
     Room toRoom(RoomRequestDto roomDto);
 
     @Mapping(source = "hotel.id", target = "id")
-    RoomResponseDto toRoomResponseDto(Room room);
+    @Mapping(target = "unavailableDates", ignore = true)
+    RoomResponseDto toRoomResponseDtoInner(Room room);
 
-    List<RoomResponseDto> toRoomResponseList(List<Room> rooms);
+    default RoomResponseDto toRoomResponseDto(Room room) {
+        RoomResponseDto roomResponseDto = toRoomResponseDtoInner(room);
+        roomResponseDto.setUnavailableDates(room.getUnavailableDates().stream().map(UnavailableDates::getUnavailableDate).toList());
+        return roomResponseDto;
+    }
+
+
 
 }

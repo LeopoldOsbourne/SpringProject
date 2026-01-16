@@ -67,8 +67,7 @@
             price bigint,
             max_number_of_guests bigint,
             unavailable_dates date,
-            hotel_id bigint references hotels(id),
-            unavailable_dates_id bigint references unavailable_dates(id)
+            hotel_id bigint references hotels(id)
             )
         </sql>
     </changeSet>
@@ -153,10 +152,10 @@
             </not>
         </preConditions>
         <sql>
-            CREATE table user_roles (
+            CREATE table unavailable_dates (
                 id bigserial primary key,
                 room_id bigint references rooms(id),
-                unavailable_date TIMESTAMP,
+                unavailable_date DATE
             )
         </sql>
     </changeSet>
