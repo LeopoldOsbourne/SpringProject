@@ -16,7 +16,7 @@ public class RoomController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomResponseDto> findById(@PathVariable Long id) {
-        return null;
+        return ResponseEntity.ok(roomService.findById(id));
     }
 
     @PostMapping
@@ -30,7 +30,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         roomService.delete(id);
         return ResponseEntity.noContent().build();
     }

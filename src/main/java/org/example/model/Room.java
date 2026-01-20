@@ -16,7 +16,7 @@ import java.util.UUID;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -33,13 +33,13 @@ public class Room {
     @Column(nullable = false)
     private int maxNumberOfGuests;
 
-    @Column(nullable = false)
-    private LocalDate unavailableDates;
-
     @ManyToOne
     @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Booking> bookings;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private List<UnavailableDates> unavailableDates;
 }

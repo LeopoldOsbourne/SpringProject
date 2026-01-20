@@ -7,6 +7,7 @@ import org.example.model.Hotel;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -22,6 +23,8 @@ public class RoomRequestDto {
 
     int maxNumberOfGuests;
 
-    LocalDate unavailableDates;
+    Long hotelId;
+
+    List<LocalDate> unavailableDates;
 
 }
