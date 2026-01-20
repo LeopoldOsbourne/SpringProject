@@ -20,7 +20,6 @@ public interface RoomMapper {
     @Mapping(target = "unavailableDates", ignore = true)
     Room toRoom(RoomRequestDto roomDto);
 
-    @Mapping(source = "hotel.id", target = "id")
     @Mapping(target = "unavailableDates", ignore = true)
     RoomResponseDto toRoomResponseDtoInner(Room room);
 

@@ -23,6 +23,8 @@ public class RoomRequestDto {
 
     int maxNumberOfGuests;
 
+    Long hotelId;
+
     List<LocalDate> unavailableDates;
 
 }
