@@ -59,12 +59,16 @@ public class RoomServiceImpl implements RoomService {
                 .map(date -> {
                     UnavailableDates unavailableDate = new UnavailableDates();
                     unavailableDate.setRoom(finalRoom);
+                    unavailableDate.setUnavailableDate(date);
                     return unavailableDate;
                 })
                 .collect(Collectors.toList());
 
         unavailableDatesRepository.saveAll(unavailableDates);
 
+        List<UnavailableDates> savedDates = unavailableDatesRepository.saveAll(unavailableDates);
+
+        room.setUnavailableDates(savedDates);
         roomRepository.save(room);
         return roomMapper.toRoomResponseDto(room);
     }
