@@ -40,6 +40,6 @@ public class RoomSpecification implements Specification<Room> {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("maxNumberOfGuests"), roomFilter.getMaxNumberOfGuests()));
         }
 
-        return predicate;
+        return predicate;  //как быть с добавлением поля даты
     }
 }

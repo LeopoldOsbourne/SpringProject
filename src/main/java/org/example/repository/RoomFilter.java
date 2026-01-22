@@ -17,7 +17,7 @@ public class RoomFilter {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate checkIn;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) //обработать поле как дату а не просто строку, iso между формат даты
     private LocalDate checkOut;
 
     private Long hotelId;
