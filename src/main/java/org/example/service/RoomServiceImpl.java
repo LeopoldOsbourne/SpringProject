@@ -12,6 +12,7 @@ import org.example.model.Hotel;
 import org.example.model.Room;
 import org.example.model.UnavailableDates;
 import org.example.repository.HotelRepository;
+import org.example.repository.RoomFilter;
 import org.example.repository.RoomRepository;
 import org.example.repository.UnavailableDatesRepository;
 import org.hibernate.query.Page;
@@ -32,6 +33,11 @@ public class RoomServiceImpl implements RoomService {
     private final RoomMapper roomMapper;
     private final UnavailableDatesRepository unavailableDatesRepository;
     private final HotelRepository hotelRepository;
+
+    @Override
+    public RoomResponseDto getAll(RoomFilter roomFilter) {
+        return null;
+    }
 
     @Override
     @Nullable
