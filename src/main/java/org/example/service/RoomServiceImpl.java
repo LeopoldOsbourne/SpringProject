@@ -4,22 +4,18 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.RoomResponse;
 import org.example.dto.room.RoomRequestDto;
 import org.example.dto.room.RoomResponseDto;
-import org.example.dto.room.RoomSpecification;
 import org.example.mapper.RoomMapper;
 import org.example.model.Hotel;
 import org.example.model.Room;
 import org.example.model.UnavailableDates;
-import org.example.repository.HotelRepository;
-import org.example.repository.RoomRepository;
-import org.example.repository.UnavailableDatesRepository;
-import org.hibernate.query.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.example.repository.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +28,17 @@ public class RoomServiceImpl implements RoomService {
     private final RoomMapper roomMapper;
     private final UnavailableDatesRepository unavailableDatesRepository;
     private final HotelRepository hotelRepository;
+
+    @Override
+    public RoomResponse getAll(RoomFilter roomFilter) {
+        Page<Room> rooms = roomRepository.findAll(new RoomSpecification(roomFilter), PageRequest.of(roomFilter.getPageNumber(), roomFilter.getPageSize()));
+        RoomResponse roomResponse = new RoomResponse();
+        roomResponse.setRooms(rooms.getContent().stream().map(roomMapper::toRoomResponseDto).collect(Collectors.toList()));
+        roomResponse.setPageNumber(rooms.getNumber());
+        roomResponse.setPageSize(rooms.getSize());
+        roomResponse.setPageElements(rooms.getNumber());
+        return roomResponse;
+    }
 
     @Override
     @Nullable
@@ -90,20 +97,6 @@ public class RoomServiceImpl implements RoomService {
         room.setPrice(roomDto.getPrice());
         room.setMaxNumberOfGuests(roomDto.getMaxNumberOfGuests());
         return roomMapper.toRoomResponseDto(roomRepository.save(room));
-    }
-
-    public Page findAllWithFilters(
-            Long id, String title,
-            Double minPrice, Double maxPrice,
-            Integer guestCount,
-            LocalDate checkInDate, LocalDate checkOutDate,
-            Long hotelId,
-            Pageable pageable) {
-
-        Specification<Room> specification = RoomSpecification.filterByCriteria(
-                id, title, minPrice, maxPrice, guestCount, checkInDate, checkOutDate, hotelId);
-
-        return roomRepository.findAll(specification, pageable);
     }
 
     @Override
