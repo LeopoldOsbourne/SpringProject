@@ -23,10 +23,10 @@ public class RoomSpecification implements Specification<Room> {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("name"), roomFilter.getName()));
         }
         if(roomFilter.getMinPrice() != null) {
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThanOrEqualTo(root.get("minimum price"), roomFilter.getMinPrice()));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThanOrEqualTo(root.get("price"), roomFilter.getMinPrice()));
         }
         if(roomFilter.getMaxPrice() != null) {
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.lessThanOrEqualTo(root.get("maximum price"), roomFilter.getMaxPrice()));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.lessThanOrEqualTo(root.get("price"), roomFilter.getMaxPrice()));
         }
         if(roomFilter.getMaxNumberOfGuests() != null) {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("maxNumberOfGuests"), roomFilter.getMaxNumberOfGuests()));
@@ -55,9 +55,6 @@ public class RoomSpecification implements Specification<Room> {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.not(criteriaBuilder.exists(subquery)));
         }
 
-        if(roomFilter.getMaxNumberOfGuests() != null) {
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("hotel").get("id"), roomFilter.getHotelId()));
-        }
 
         return predicate;
     }
