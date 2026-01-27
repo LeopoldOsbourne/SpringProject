@@ -23,4 +23,7 @@ public class UnavailableDates {
 
     @Column(nullable = false, name = "unavailable_date")
     LocalDate unavailableDate;
+
+    @Enumerated(EnumType.STRING)
+    Type type;
 }

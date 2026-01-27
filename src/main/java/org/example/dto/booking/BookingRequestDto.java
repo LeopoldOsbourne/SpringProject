@@ -9,6 +9,7 @@ import org.example.model.Room;
 import org.example.model.User;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -16,8 +17,10 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BookingRequestDto {
 
-    LocalDateTime arrivalDate;
+    Long roomId;
 
-    LocalDateTime departureDate;
+    LocalDate arrivalDate;
+
+    LocalDate departureDate;
 
 }

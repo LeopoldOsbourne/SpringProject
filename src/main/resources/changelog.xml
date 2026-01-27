@@ -160,5 +160,15 @@
         </sql>
     </changeSet>
 
+    <changeSet id="123456" author="author">
+        <addColumn tableName="unavailable_dates">
+            <column name="type" type="varchar"/>
+        </addColumn>
+
+        <sql>
+            UPDATE unavailable_dates SET type = 'UNAVAILABLE' WHERE type is null;
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>
