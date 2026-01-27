@@ -1,11 +1,14 @@
 package org.example.repository;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Data
+
 public class RoomFilter {
     private Long id;
     private String name;
@@ -17,8 +20,10 @@ public class RoomFilter {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate checkIn;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) //обработать поле как дату а не просто строку, iso между формат даты
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate checkOut;
 
+    private int pageSize;
+    private int pageNumber;
     private Long hotelId;
 }

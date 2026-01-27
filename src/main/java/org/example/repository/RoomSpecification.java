@@ -1,10 +1,8 @@
 package org.example.repository;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.example.model.Room;
+import org.example.model.UnavailableDates;
 import org.springframework.data.jpa.domain.Specification;
 
 public class RoomSpecification implements Specification<Room> {
@@ -24,12 +22,6 @@ public class RoomSpecification implements Specification<Room> {
         if (roomFilter.getName() != null) {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("name"), roomFilter.getName()));
         }
-        if(roomFilter.getDescription() != null) {
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("description"), roomFilter.getDescription()));
-        }
-        if(roomFilter.getNumber() != null) {
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("number"), roomFilter.getNumber()));
-        }
         if(roomFilter.getMinPrice() != null) {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThanOrEqualTo(root.get("minimum price"), roomFilter.getMinPrice()));
         }
@@ -40,6 +32,33 @@ public class RoomSpecification implements Specification<Room> {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("maxNumberOfGuests"), roomFilter.getMaxNumberOfGuests()));
         }
 
-        return predicate;  //как быть с добавлением поля даты
+        if (roomFilter.getCheckIn() != null && roomFilter.getCheckOut() != null) {
+            Subquery<Long> subquery = query.subquery(Long.class);
+            Root<UnavailableDates> unavailableRoot = subquery.from(UnavailableDates.class);
+
+
+            Predicate roomMatch = criteriaBuilder.equal(unavailableRoot.get("room"), root);
+            Predicate overlaps = criteriaBuilder.and(
+                    criteriaBuilder.lessThanOrEqualTo(
+                            criteriaBuilder.literal(roomFilter.getCheckIn()),
+                            unavailableRoot.get("unavailableDate")
+                    ),
+                    criteriaBuilder.lessThanOrEqualTo(
+                            unavailableRoot.get("unavailableDate"),
+                            criteriaBuilder.literal(roomFilter.getCheckOut())
+                    )
+            );
+
+            subquery.select(criteriaBuilder.literal(1L))
+                    .where(criteriaBuilder.and(roomMatch, overlaps));
+
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.not(criteriaBuilder.exists(subquery)));
+        }
+
+        if(roomFilter.getMaxNumberOfGuests() != null) {
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("hotel").get("id"), roomFilter.getHotelId()));
+        }
+
+        return predicate;
     }
 }
