@@ -26,4 +26,5 @@ public class UnavailableDates {
 
     @Enumerated(EnumType.STRING)
     Type type;
+
 }

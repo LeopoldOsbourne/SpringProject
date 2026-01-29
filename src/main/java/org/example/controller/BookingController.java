@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingController {
 
-    BookingService bookingService;
+   private final BookingService bookingService;
 
     @GetMapping
     public ResponseEntity<List<BookingResponseDto>> showAllBookings() {
@@ -22,8 +22,9 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<BookingResponseDto> createBooking(BookingRequestDto bookingDto){
+    public ResponseEntity<BookingResponseDto> createBooking(@RequestBody BookingRequestDto bookingDto){
         return ResponseEntity.ok(bookingService.createBooking(bookingDto));
+
     }
 
     @DeleteMapping("/{id}")
