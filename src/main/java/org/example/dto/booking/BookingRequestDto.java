@@ -19,6 +19,8 @@ public class BookingRequestDto {
 
     Long roomId;
 
+    Long userId;
+
     LocalDate arrivalDate;
 
     LocalDate departureDate;

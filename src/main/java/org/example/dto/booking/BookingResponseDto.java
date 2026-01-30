@@ -7,6 +7,7 @@ import org.example.model.Room;
 import org.example.model.User;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
@@ -17,9 +18,9 @@ public class BookingResponseDto {
 
     long id;
 
-    LocalDateTime arrivalDate;
+    LocalDate arrivalDate;
 
-    LocalDateTime departureDate;
+    LocalDate departureDate;
 
     long roomId;
     long userId;
