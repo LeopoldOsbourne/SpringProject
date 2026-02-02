@@ -63,7 +63,7 @@ public class HotelServiceImpl implements HotelService {
         return hotelMapper.toHotelResponseDto(updatedHotel);
     }
 
-    /* @Override
+    @Override
     public HotelResponseWithRatingDto updateHotelRating(Long hotelId, int newMark) {
         if (newMark < 1 || newMark > 5) {
             throw new IllegalArgumentException("Оценка должна быть от 1 до 5.");
@@ -84,27 +84,7 @@ public class HotelServiceImpl implements HotelService {
 
 
         return hotelMapper.toHotelResponseWithRatingDto(hotelRepository.save(hotel));
-    }*/
-
-
-    /*public Page<HotelPageResponseDto<?>> findAllWithFilters(HotelFilterDto hotelFilterDto) {
-        return null; //TODO
-    }*/
-
-    /*public Page<HotelPageResponseDto<?>> findAllWithFilters(HotelFilterDto hotelFilterDto) {
-
-        Specification<Hotel> specification = HotelSpecification.filterByCriteria(hotelFilterDto);
-
-        Page<Hotel> hotelPage = hotelRepository.findAll(specification, hotelFilterDto.getPageable());
-
-        return hotelPage.map(this::convertToHotelPageResponseDto);
-
     }
-
-    private HotelPageResponseDto<?> convertToHotelPageResponseDto(Hotel hotel) {
-        return new HotelPageResponseDto<>();
-    }*/
-
 
     @Override
     public void deleteHotel(Long id) {
