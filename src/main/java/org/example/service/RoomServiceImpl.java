@@ -10,12 +10,14 @@ import org.example.dto.room.RoomResponseDto;
 import org.example.mapper.RoomMapper;
 import org.example.model.Hotel;
 import org.example.model.Room;
+import org.example.model.Type;
 import org.example.model.UnavailableDates;
 import org.example.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.lang.model.element.TypeElement;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,12 +57,6 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional
     public RoomResponseDto create(RoomRequestDto roomDto) {
-        /*
-        0. Найти отель по id, положить его в комнату
-        1. сохранить комнату
-        2. создать список из UnavailableDates из roomDto.unavailableDates, в каждую из них положить созданный Room
-        3. Сохранить список UnavailableDates через saveBatch
-         */
         Room room = roomMapper.toRoom(roomDto);
         Hotel hotel = hotelRepository.findById(roomDto.getHotelId())
                 .orElseThrow(()-> new EntityNotFoundException("Hotel not found"));
@@ -73,6 +69,7 @@ public class RoomServiceImpl implements RoomService {
                 .map(date -> {
                     UnavailableDates unavailableDate = new UnavailableDates();
                     unavailableDate.setRoom(finalRoom);
+                    unavailableDate.setType(Type.UNAVAILABLE);
                     unavailableDate.setUnavailableDate(date);
                     return unavailableDate;
                 })

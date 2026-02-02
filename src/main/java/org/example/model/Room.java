@@ -38,8 +38,5 @@ public class Room {
     private Hotel hotel;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-    private List<Booking> bookings;
-
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<UnavailableDates> unavailableDates;
 }

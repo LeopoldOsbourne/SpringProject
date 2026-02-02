@@ -2,6 +2,7 @@ package org.example.advice;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.example.dto.ErrorResponseDto;
+import org.example.exception.RoomUnavailableException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,9 +22,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST); // 400
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ErrorResponseDto> handleGenericException(Exception ex) {
-//        ErrorResponseDto error = new ErrorResponseDto("INTERNAL_SERVER_ERROR", "Внутренняя ошибка сервиса");
-//        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); // 500
-//    }
+    @ExceptionHandler(RoomUnavailableException.class)
+    public ResponseEntity<ErrorResponseDto> roomUnavailableException(RoomUnavailableException ex){
+        ErrorResponseDto error = new ErrorResponseDto("ROOM_UNAVAILABLE", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDto> handleGenericException(Exception ex) {
+        ErrorResponseDto error = new ErrorResponseDto(ex.getMessage(), "Внутренняя ошибка сервиса");
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); // 500
+    }
 }
