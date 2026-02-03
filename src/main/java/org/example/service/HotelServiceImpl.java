@@ -66,13 +66,13 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public HotelResponseWithRatingDto updateHotelRating(Long hotelId, int newMark) {
         if (newMark < 1 || newMark > 5) {
-            throw new IllegalArgumentException("Оценка должна быть от 1 до 5.");
+            throw new IllegalArgumentException("The mark should be between 1 and 5.");
         }
 
-        Hotel hotel = hotelRepository.findById(hotelId)
-                .orElseThrow(() -> new NoSuchElementException("Отель не найден."));
+        HotelResponseWithRatingDto hotel = hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new NoSuchElementException("Hotel is not found."));
 
-        double totalRating = hotel.getRating() * hotel.getNumberOfRating();
+        double totalRating = hotel.getRating() * hotel.getNumberOfRating(); 
 
         totalRating = totalRating - hotel.getRating() + newMark;
 

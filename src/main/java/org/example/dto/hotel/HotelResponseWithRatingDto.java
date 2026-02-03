@@ -1,7 +1,6 @@
 package org.example.dto.hotel;
 
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.UUID;
