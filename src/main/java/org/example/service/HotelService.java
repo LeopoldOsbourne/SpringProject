@@ -14,7 +14,7 @@ public interface HotelService {
 
     HotelResponseDto edit(HotelRequestDto hotelDto, Long id);
 
-    HotelResponseWithRatingDto updateHotelRating(Long id, int newRating);
+    HotelResponseWithRatingDto updateHotelRating(Long id, int newRating, Long userId);
 
     void deleteHotel(Long id);
 }

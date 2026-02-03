@@ -6,9 +6,9 @@ import org.example.dto.HotelResponse;
 import org.example.dto.hotel.*;
 import org.example.mapper.HotelMapper;
 import org.example.model.Hotel;
-import org.example.repository.HotelFilter;
-import org.example.repository.HotelRepository;
-import org.example.repository.HotelSpecification;
+import org.example.model.HotelMark;
+import org.example.model.User;
+import org.example.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -24,6 +24,8 @@ public class HotelServiceImpl implements HotelService {
 
     private final HotelRepository hotelRepository;
     private final HotelMapper hotelMapper;
+    private final HotelMarkRepository  hotelMarkRepository;
+    private final UserRepository userRepository;
 
     @Override
     public HotelResponse getAll(HotelFilter hotelFilter) {
@@ -64,26 +66,41 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public HotelResponseWithRatingDto updateHotelRating(Long hotelId, int newMark) {
-        if (newMark < 1 || newMark > 5) {
-            throw new IllegalArgumentException("The mark should be between 1 and 5.");
-        }
-
-        HotelResponseWithRatingDto hotel = hotelRepository.findById(hotelId)
+    public HotelResponseWithRatingDto updateHotelRating(Long hotelId, int newMark, Long userId) {
+        Hotel hotel = hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new NoSuchElementException("Hotel is not found."));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User is not found."));
 
-        double totalRating = hotel.getRating() * hotel.getNumberOfRating(); 
+        HotelMark hotelMark = new HotelMark();
+        hotelMark.setMark(newMark);
+        hotelMark.setHotel(hotel);
+        hotelMark.setUser(user);
 
-        totalRating = totalRating - hotel.getRating() + newMark;
+        /*
+        как найти сумму оценок и их количество???
+        1. Получить список всех оценок из БД
+        2. Найти сумму оценок из списка
+        3. поделить полученную сумму на количество элементов списка
+        4. записать рейтинг в ответ
+         */
+        hotelMarkRepository.save(hotelMark);
 
-        int updatedNumberOfRating = hotel.getNumberOfRating() + 1;
-        hotel.setNumberOfRating(updatedNumberOfRating);
+        HotelResponseWithRatingDto hotelResponseWithRatingDto = new HotelResponseWithRatingDto();
+        hotelResponseWithRatingDto.setName(hotel.getName());
+        hotelResponseWithRatingDto.setAddress(hotel.getAddress());
+        hotelResponseWithRatingDto.setCity(hotel.getCity());
+        hotelResponseWithRatingDto.setDistanceFromCityCenter(hotel.getDistanceFromCityCenter());
+        hotelResponseWithRatingDto.setTitle(hotel.getTitle());
 
-        double newRating = totalRating / updatedNumberOfRating;
-        hotel.setRating((long) (Math.round(newRating * 10) / 10.0));
+        hotel.setRating((long) (Math.round(newMark * 10.0) / 10.0));
 
 
-        return hotelMapper.toHotelResponseWithRatingDto(hotelRepository.save(hotel));
+        return
+    }
+
+    private int getRating(HotelResponseWithRatingDto hotel) {
+        hotel.getRating();
     }
 
     @Override

@@ -13,7 +13,7 @@ public class HotelResponseWithRatingDto {
 
     String name;
 
-    String adTitle;
+    String title;
 
     String city;
 
