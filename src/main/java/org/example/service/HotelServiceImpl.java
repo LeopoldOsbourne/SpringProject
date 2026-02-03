@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -86,12 +87,25 @@ public class HotelServiceImpl implements HotelService {
          */
         hotelMarkRepository.save(hotelMark);
 
+        List<HotelMark> allHotelMarks = hotelMarkRepository.findByHotel(hotel);
+
+        double sum = 0;
+        int count = allHotelMarks.size();
+
+        for(int i = 0; i < count; i++){
+            sum +=  allHotelMarks.get(i).getMark();
+        }
+
+        double averageRating =  sum/count;
+
         HotelResponseWithRatingDto hotelResponseWithRatingDto = new HotelResponseWithRatingDto();
         hotelResponseWithRatingDto.setName(hotel.getName());
         hotelResponseWithRatingDto.setAddress(hotel.getAddress());
         hotelResponseWithRatingDto.setCity(hotel.getCity());
         hotelResponseWithRatingDto.setDistanceFromCityCenter(hotel.getDistanceFromCityCenter());
         hotelResponseWithRatingDto.setTitle(hotel.getTitle());
+        hotelResponseWithRatingDto.setRating(averageRating);
+
 
         hotel.setRating((long) (Math.round(newMark * 10.0) / 10.0));
 

@@ -21,7 +21,7 @@ public class HotelResponseWithRatingDto {
 
     Long distanceFromCityCenter;
 
-    Long rating;
+    Double rating;
 
     Long numberOfRatings;
 }
