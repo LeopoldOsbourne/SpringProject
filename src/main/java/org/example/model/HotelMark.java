@@ -9,7 +9,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "hotel_marks")
 @Data
-@NoArgsConstructor
 public class HotelMark {
 
     @Id

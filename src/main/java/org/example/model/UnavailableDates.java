@@ -16,7 +16,6 @@ public class UnavailableDates {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    //TODO
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
     Room room;

@@ -18,4 +18,5 @@ public class HotelRequestDto {
 
     Long distanceFromCityCenter;
 
+
 }

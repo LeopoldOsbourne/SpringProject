@@ -1,7 +1,6 @@
 package org.example.dto.hotel;
 
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.UUID;
@@ -14,7 +13,7 @@ public class HotelResponseWithRatingDto {
 
     String name;
 
-    String adTitle;
+    String title;
 
     String city;
 
@@ -22,7 +21,7 @@ public class HotelResponseWithRatingDto {
 
     Long distanceFromCityCenter;
 
-    Long rating;
+    Double rating;
 
     Long numberOfRatings;
 }
