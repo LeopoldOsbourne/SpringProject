@@ -90,7 +90,7 @@ public class HotelServiceImpl implements HotelService {
         List<HotelMark> allHotelMarks = hotelMarkRepository.findByHotel(hotel);
 
         double sum = 0;
-        int count = allHotelMarks.size();
+        long count = allHotelMarks.size();
 
         for(int i = 0; i < count; i++){
             sum +=  allHotelMarks.get(i).getMark();
@@ -99,22 +99,16 @@ public class HotelServiceImpl implements HotelService {
         double averageRating =  sum/count;
 
         HotelResponseWithRatingDto hotelResponseWithRatingDto = new HotelResponseWithRatingDto();
+        hotelResponseWithRatingDto.setId(hotelId);
         hotelResponseWithRatingDto.setName(hotel.getName());
         hotelResponseWithRatingDto.setAddress(hotel.getAddress());
         hotelResponseWithRatingDto.setCity(hotel.getCity());
         hotelResponseWithRatingDto.setDistanceFromCityCenter(hotel.getDistanceFromCityCenter());
         hotelResponseWithRatingDto.setTitle(hotel.getTitle());
         hotelResponseWithRatingDto.setRating(averageRating);
+        hotelResponseWithRatingDto.setNumberOfRatings(count);
 
-
-        hotel.setRating((long) (Math.round(newMark * 10.0) / 10.0));
-
-
-        return
-    }
-
-    private int getRating(HotelResponseWithRatingDto hotel) {
-        hotel.getRating();
+        return  hotelResponseWithRatingDto;
     }
 
     @Override
