@@ -9,6 +9,8 @@ import org.example.model.User;
 import org.example.model.UserRole;
 import org.example.repository.RoleRepository;
 import org.example.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -20,6 +22,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserResponseDto create(UserRequestDto userDto) {
@@ -27,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
         UserRole role = roleRepository.findByName("user");
         user.setRoles(Set.of(role));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         return userMapper.toUserResponseDto(userRepository.save(user));
     }
