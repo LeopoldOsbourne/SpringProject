@@ -28,18 +28,17 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth ->
                                 auth
-                                        .anyRequest().permitAll()
-//                                        .requestMatchers("/api/users").anonymous()
-//                                        .requestMatchers("/admin/**").hasRole("ADMIN")
-//                                        .requestMatchers("/hotels/create").hasRole("ADMIN")
-//                                        .requestMatchers("/hotels/edit").hasRole("ADMIN")
-//                                        .requestMatchers("/hotels/delete").hasRole("ADMIN")
-//                                        //room
-//                                        .requestMatchers("/rooms/create").hasRole("ADMIN")
-//                                        .requestMatchers("/rooms/edit").hasRole("ADMIN")
-//                                        .requestMatchers("/rooms/delete").hasRole("ADMIN")
-//                                        .requestMatchers("/booking/showAllBookings").hasRole("ADMIN")
-//                                        .anyRequest().authenticated()
+                                       .requestMatchers("/api/users").anonymous()
+                                       .requestMatchers("/admin/**").hasRole("ADMIN")
+                                       .requestMatchers("/hotels/create").hasRole("ADMIN")
+                                       .requestMatchers("/hotels/edit").hasRole("ADMIN")
+                                       .requestMatchers("/hotels/delete").hasRole("ADMIN")
+                                       //room
+                                       .requestMatchers("/rooms/create").hasRole("ADMIN")
+                                        .requestMatchers("/rooms/edit").hasRole("ADMIN")
+                                       .requestMatchers("/rooms/delete").hasRole("ADMIN")
+                                        .requestMatchers("/booking/showAllBookings").hasRole("ADMIN")
+                                        .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .userDetailsService(userDetailsService);
