@@ -9,6 +9,7 @@ import org.example.model.User;
 import org.example.model.UserRole;
 import org.example.repository.RoleRepository;
 import org.example.repository.UserRepository;
+import org.example.statistics.producer.StatisticsEventProducer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
+    private final StatisticsEventProducer statisticsEventProducer;
 
     @Override
     public UserResponseDto create(UserRequestDto userDto) {
@@ -32,7 +34,9 @@ public class UserServiceImpl implements UserService {
         user.setRoles(Set.of(role));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        return userMapper.toUserResponseDto(userRepository.save(user));
+        User savedUser = userRepository.save(user);
+        statisticsEventProducer.sendUserRegistrationEvent(savedUser.getId());
+        return userMapper.toUserResponseDto(savedUser);
     }
 
     @Override
