@@ -2,16 +2,39 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:13
+    image: postgres:latest
     container_name: hotel_db
     environment:
-      POSTGRES_USER: postgre_user
-      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: hotel_db
+      POSTGRES_PASSWORD: hotel_db
       POSTGRES_DB: hotel_db
     ports:
-      - "5431:5431"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - "5555:5432"
 
-volumes:
-  postgres_data:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  mongodb:
+    image: mongo:7
+    container_name: mongodb
+    ports:
+      - "27017:27017"

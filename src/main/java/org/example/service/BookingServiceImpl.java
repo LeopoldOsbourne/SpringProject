@@ -11,6 +11,7 @@ import org.example.repository.BookingRepository;
 import org.example.repository.RoomRepository;
 import org.example.repository.UnavailableDatesRepository;
 import org.example.repository.UserRepository;
+import org.example.statistics.producer.StatisticsEventProducer;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ public class BookingServiceImpl implements BookingService {
     private final UnavailableDatesRepository unavailableDatesRepository;
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
+    private final StatisticsEventProducer statisticsEventProducer;
 
     @Override
     public List<BookingResponseDto> showAllBookings() {
@@ -70,6 +72,7 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new EntityNotFoundException("user not found" + bookingDto.getUserId()));
         booking.setUser(user);
         Booking savedBooking = bookingRepository.save(booking);
+        statisticsEventProducer.sendRoomBookingEvent(user.getId(), savedBooking.getArrivalDate(), savedBooking.getDepartureDate());
         return bookingMapper.toBookingResponseDto(savedBooking);
     }
 
