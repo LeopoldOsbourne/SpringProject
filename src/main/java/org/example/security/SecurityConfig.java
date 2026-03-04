@@ -33,7 +33,6 @@ public class SecurityConfig {
                                        .requestMatchers("/hotels/create").hasRole("ADMIN")
                                        .requestMatchers("/hotels/edit").hasRole("ADMIN")
                                        .requestMatchers("/hotels/delete").hasRole("ADMIN")
-                                       //room
                                        .requestMatchers("/rooms/create").hasRole("ADMIN")
                                         .requestMatchers("/rooms/edit").hasRole("ADMIN")
                                        .requestMatchers("/rooms/delete").hasRole("ADMIN")
